@@ -1,4 +1,4 @@
-const winston = require('winston');
+const winston = require('winston')
 
 /*
 const winstonLevels = {
@@ -13,5 +13,5 @@ module.exports = winston.createLogger({
   format: winston.format.combine(
     winston.format.colorize(),
     winston.format.simple(),
-  ),
-});
+  )
+})

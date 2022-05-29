@@ -4,15 +4,18 @@
         "commonjs": true,
         "es2021": true
     },
-    "extends": [
-        "standard"
-    ],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "plugins": ["prettier"],
+    "extends": ["airbnb-base"],
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": [
+            "error",
+            {
+              "endOfLine": "auto"
+            }
+          ],
         "arrow-body-style": "off",
         "prefer-arrow-callback": "off"
     }
