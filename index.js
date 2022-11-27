@@ -2,11 +2,23 @@ const express=require('express');
 const bodyparser=require('body-parser');
 const cors=require('cors');
 const logger=require('./utils/logger/logger');
+const mongoose=require ("mongoose");
+
+require('dotenv').config();
 
 //importing routes
 const google=require('./routes/google');
 
-require('dotenv').config();
+//connecting to database
+mongoose.connect('mongodb://localhost:27017/melodyDb',{
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+}).then(()=>{
+  logger.info("connected to database")
+}).catch(err=>{
+  logger.error(`error connecting to database ${err}`);
+})
+
 
 
 //create an instance of express
