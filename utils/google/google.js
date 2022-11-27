@@ -70,11 +70,6 @@ Google.prototype.generateUrl = (state) => {
       logger.error(`something is wrong in google.js : ${err.msg}`);
       res.json({msg:"something went wrong"});
     }
-    
-
-  
-   
-  
 }
 
 
