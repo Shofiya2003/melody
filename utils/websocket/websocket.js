@@ -1,28 +1,30 @@
-const WebSocketServer = require("websocket").server
+const { prototype } = require("winston-transport");
+const { WebSocketServer } = require("ws");
 const logger = require('../logger/logger');
 
 function WebSocket() { };
 
-WebSocket.prototype.create = (httpServer) => {
+WebSocket.prototype.create = (port) => {
     try {
         logger.info(`creating websocket connection`);
 
         //create a websocket server
-        const ws = new WebSocketServer({
-            httpServer: httpServer,
-            autoAcceptConnections: true
+        const wss = new WebSocketServer({
+            port: 3000
         })
-        this.ws = ws;
+
         this.eventListeners = {};
 
-        ws.on('connect', (wsConnection) => {
+        wss.on('connection', (wsConnection) => {
+
             //got a new connection
-            logger.info(`new connection ${wsConnection.socket.remotePort}`);
+            logger.info(`new connection`);
 
             wsConnection.on('message', (message) => {
-                message = JSON.parse(message.utf8Data);
+                message = JSON.parse(message);
                 const { event, data } = message;
-                logger.info(`event ${event} by ${wsConnection.socket.remotePort}`);
+                data.ws = wsConnection;
+                logger.info(`event ${event}`);
                 this.eventListeners[event](data);
             })
         })
@@ -35,6 +37,12 @@ WebSocket.prototype.create = (httpServer) => {
 //attach a listener to an event
 WebSocket.prototype.listen = (event, callback) => {
     this.eventListeners[event] = callback;
+}
+
+//emit an event with data
+WebSocket.prototype.emit = (ws, event, data) => {
+
+    ws.send(JSON.stringify({ event, data }));
 }
 
 module.exports = new WebSocket();
