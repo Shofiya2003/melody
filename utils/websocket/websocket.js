@@ -4,7 +4,7 @@ const logger = require('../logger/logger');
 
 function WebSocket() { };
 
-WebSocket.prototype.create = (port) => {
+WebSocket.prototype.create = () => {
     try {
         logger.info(`creating websocket connection`);
 
