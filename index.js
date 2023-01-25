@@ -12,6 +12,7 @@ require('dotenv').config();
 
 //importing routes
 const google = require('./routes/google');
+const spotify = require('./routes/spotify');
 
 //mongoose models
 const Room = require('./models/room');
@@ -43,6 +44,7 @@ const port = process.env.PORT || 8000
 
 //bind routes to app
 app.use('/auth', google);
+app.use('/spotify', spotify);
 
 
 webSocketServer.create(port);
