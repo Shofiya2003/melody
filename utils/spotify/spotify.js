@@ -3,7 +3,8 @@ const logger = require('../logger/logger')
 const rp = require('request-promise');
 
 const { json } = require('body-parser');
-function Spotify() { }
+
+function Spotify() { }  
 
 Spotify.prototype.seed = () => {
     this.clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -12,7 +13,7 @@ Spotify.prototype.seed = () => {
 }
 
 Spotify.prototype.generateUrl = () => {
-    const scopes = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private';
+    const scopes = 'user-read-playback-state user-read-email user-modify-playback-state user-read-currently-playing user-read-recently-played user-read-private';
     const url = `https://accounts.spotify.com/authorize?response_type=code&client_id=${this.clientId}&scope=${scopes}&redirect_uri=${this.redirectUri}`;
     return url;
 }
