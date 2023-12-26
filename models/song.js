@@ -16,6 +16,10 @@ const song = new mongoose.Schema({
     played: {
         type: Boolean,
         default: false
+    },
+    upvotes:{
+        type: Number,
+        default: 0
     }
 })
 
