@@ -5,11 +5,11 @@ const tokenStorage = new mongoose.Schema({
         type: String,
         required: true
     },
-    refreshToken : {
+    refreshToken: {
         type: String,
         required: true
     }
 
 })
 
-module.exports = mongoose.model('tokenStorage',tokenStorage);
+module.exports = mongoose.model('tokenStorage', tokenStorage);
