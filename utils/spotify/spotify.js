@@ -80,7 +80,25 @@ Spotify.prototype.getRefreshToken=()=>{
     return this.refreshToken
 }
 
-
-
+Spotify.prototype.getPlaylists=async ()=>{
+    try{
+        console.log("getting playlists")
+        if(!this.accessToken){
+            throw new Error("missing access token")
+        }
+        const options={
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + this.accessToken
+            },
+            uri: `https://api.spotify.com/v1/me/playlists?limit=${10}&offset=${0}`,
+        }
+    
+        let playlists = await rp(options)
+        return JSON.parse(playlists).items
+    }catch(err){
+        console.log(err)
+    }
+}
 
 module.exports = new Spotify();

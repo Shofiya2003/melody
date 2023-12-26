@@ -23,16 +23,16 @@ router.get('/auth', async (req, res) => {
             logger.info("got the tokens");
 
             //store the tokens in the object
-            spotify.setAccessToken(data.access_token);
-            spotify.setRefreshToken(data.refresh_token);
+            spotify.setAccessToken(data.accessToken);
+            spotify.setRefreshToken(data.refreshToken);
 
-            return res.json({msg:"successfully logged in with spotify"})
+            return res.json({ msg: "successfully logged in with spotify" })
 
         }
 
     } catch (err) {
         logger.error("error in athuenticating spotify");
-        return res.json({msg:"something went wrong in spotify authentication"});
+        return res.json({ msg: "something went wrong in spotify authentication" });
     }
 
 })
@@ -43,7 +43,6 @@ router.get('/callback', spotify.exchangeCode, async (req, res) => {
     try {
         logger.info("go the tokens");
         console.log(req.access_token);
-        
 
         //store the tokens in the object
         spotify.setAccessToken(req.access_token);
@@ -68,6 +67,20 @@ router.get('/callback', spotify.exchangeCode, async (req, res) => {
         res.json({ msg: "something went wrong" });
     }
 
+})
+
+router.get('/playlists',async (req,res)=>{
+    try{
+        playlists = await spotify.getPlaylists()
+        if(!playlists){
+            return res.json({msg:"something went wrong"})
+        }
+        return res.json({data:playlists})
+    }catch(err){
+        console.log(err);
+        logger.error(`error in fetching playlist: ${err.msg}`);
+        res.json({ msg: "something went wrong" });
+    }
 })
 
 module.exports = router;
