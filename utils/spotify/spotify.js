@@ -97,7 +97,30 @@ Spotify.prototype.getPlaylists=async ()=>{
         let playlists = await rp(options)
         return JSON.parse(playlists).items
     }catch(err){
-        console.log(err)
+        logger.error("error in fetching spotify playlist function")
+        throw err
+    }
+}
+
+Spotify.prototype.search = async (textquery)=>{
+    try{
+        if(!this.accessToken){
+            throw new Error("missing access token")
+        }
+        const options={
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + this.accessToken
+            },
+            uri: `https://api.spotify.com/v1/search?limit=50&offset=0&q=${textquery}&type=track`,
+        }
+        let songs = await rp(options)
+        console.log(songs)
+        songs = JSON.parse(songs)
+        return songs.tracks.items
+    }catch(err){
+        logger.error("error in spotify search function")
+        throw err
     }
 }
 

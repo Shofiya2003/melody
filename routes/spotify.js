@@ -79,7 +79,22 @@ router.get('/playlists',async (req,res)=>{
     }catch(err){
         console.log(err);
         logger.error(`error in fetching playlist: ${err.msg}`);
-        res.json({ msg: "something went wrong" });
+        return res.json({ msg: "something went wrong" });
+    }
+})
+
+router.get('/search',async (req,res)=>{
+    try{
+        const textquery = req.query.q
+        if(!textquery){
+            return res.status(400).json({msg:"empty search text"})
+        }
+        const songs = await spotify.search(textquery)
+        return res.json({data:songs})
+    }catch(err){
+        logger.error("error in spotify search api")
+        console.log(err)
+        return res.status(500).json({msg:"something went wrong"})
     }
 })
 
