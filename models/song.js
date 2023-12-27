@@ -17,15 +17,17 @@ const song = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    upvotes:{
+    upvotes: {
         type: Number,
         default: 1
     },
-    upvoters:{
-        type:Array,
+    upvoters: {
+        type: Array,
         required: true
     }
+}, {
+    timestamps: true
 })
 
-const  Song= mongoose.model('song', song);
+const Song = mongoose.model('song', song);
 module.exports = Song;
