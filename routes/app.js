@@ -5,6 +5,7 @@ const logger = require('../utils/logger/logger');
 const Song = require("../models/song");
 const spotify = require('../utils/spotify/spotify');
 
+spotify.seed();
 router.post('/:songId', async (req, res) => {
     const songId = req.params.songId
     //client id

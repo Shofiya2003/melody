@@ -38,7 +38,6 @@ const app = express();
 
 //create an instance of http server
 const httpServer = new http.createServer()
-
 app.use(bodyparser.json());
 app.use(cors());
 
@@ -50,12 +49,18 @@ app.use('/auth', google);
 app.use('/spotify', spotify);
 app.use('/api/song',song)
 
+app.get('/',(req,res)=>{
+  spotify_class.getNewAccessToken()
+  res.json({msg:"ok"})
+})
+
 //bind the port to the app instance
 app.listen(port, () => {
   logger.info(`Express server started at port: ${port}`);
 })
 
-setInterval(() => {
-  console.log("updating")
-  spotify_class.stateUpdate()
-}, 3000);
+// setInterval(() => {
+//   console.log("updating")
+//   spotify_class.stateUpdate()
+// }, 3000);
+

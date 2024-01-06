@@ -11,7 +11,12 @@ spotify.seed();
 
 router.get('/auth', async (req, res) => {
     try {
-        const data = await TokenStorage.findOne({});
+        const spotifyClientId = spotify.getClientId()
+        if (!spotifyClientId) {
+            logger.error("spotify client id missing")
+            throw new Error("spotify client id missing")
+        }
+        const data = await TokenStorage.findOne({spotifyClientId:spotifyClientId});
         if (!data) {
             logger.info("tokens not found in storage");
             logger.info("generating consent screen url");
@@ -27,7 +32,6 @@ router.get('/auth', async (req, res) => {
             spotify.setRefreshToken(data.refreshToken);
 
             return res.json({ msg: "successfully logged in with spotify" })
-
         }
 
     } catch (err) {
@@ -41,6 +45,7 @@ router.get('/auth', async (req, res) => {
 router.get('/callback', spotify.exchangeCode, async (req, res) => {
 
     try {
+        const spotifyClientId = spotify.getClientId()
         logger.info("go the tokens");
         console.log(req.access_token);
 
@@ -52,6 +57,7 @@ router.get('/callback', spotify.exchangeCode, async (req, res) => {
         await TokenStorage.deleteOne({});
 
         const newTokens = new TokenStorage({
+            spotifyClientId: spotifyClientId,
             accessToken: req.access_token,
             refreshToken: req.refresh_token
         });

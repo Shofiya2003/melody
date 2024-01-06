@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const tokenStorage = new mongoose.Schema({
+    spotifyClientId:{
+        type: String,
+        required: true
+    },
     accessToken: {
         type: String,
         required: true
