@@ -4,7 +4,7 @@ Melody is a music voting app based on Spotify. Users add and upvote songs on the
 ## Techstack
 - NodeJS
 - Spotify API
-- SSE (Server Sent Events)
+- Websockets
 
 ## API
 
